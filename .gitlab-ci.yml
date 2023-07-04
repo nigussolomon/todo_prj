@@ -1,4 +1,5 @@
 stages:
+  - build
   - test
 
 variables:
@@ -7,6 +8,15 @@ variables:
   POSTGRES_DB: ci_db
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: "runner123"
+
+lint:
+  image: 'ruby:3.2.2'
+  stage: build
+  before_script:
+    - apt-get update && apt-get install -y postgresql-client
+    - bundle install
+  script:
+    - bundle exec rubocop
 
 test:
   image: 'ruby:3.2.2'
