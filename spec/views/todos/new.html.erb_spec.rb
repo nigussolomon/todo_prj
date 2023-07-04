@@ -1,21 +1,20 @@
 require 'rails_helper'
 
-RSpec.describe "todos/new", type: :view do
-  before(:each) do
+RSpec.describe 'todos/new', type: :view do
+  before do
     assign(:todo, Todo.new(
-      title: "MyString",
-      completed: false
-    ))
+                    title: 'MyString',
+                    completed: false
+                  ))
   end
 
-  it "renders new todo form" do
+  it 'renders new todo form' do
     render
 
-    assert_select "form[action=?][method=?]", todos_path, "post" do
+    assert_select 'form[action=?][method=?]', todos_path, 'post' do
+      assert_select 'input[name=?]', 'todo[title]'
 
-      assert_select "input[name=?]", "todo[title]"
-
-      assert_select "input[name=?]", "todo[completed]"
+      assert_select 'input[name=?]', 'todo[completed]'
     end
   end
 end
