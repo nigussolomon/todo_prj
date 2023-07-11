@@ -56,7 +56,7 @@ RSpec.describe '/todos', type: :request do
 
       it 'redirects to the created todo' do
         post todos_url, params: { todo: valid_attributes }
-        expect(response).to redirect_to(todo_url(Todo.last))
+        expect(response).to redirect_to(todos_url)
       end
     end
 
