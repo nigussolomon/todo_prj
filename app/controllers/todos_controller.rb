@@ -1,9 +1,10 @@
 class TodosController < ApplicationController
-  before_action :set_todo, only: %i[show edit update destroy]
+  before_action :set_todo, only: %i[show edit toggle_todo update destroy]
 
   # GET /todos or /todos.json
   def index
     @todos = Todo.all
+    @todo = Todo.new
   end
 
   # GET /todos/1 or /todos/1.json
@@ -17,13 +18,20 @@ class TodosController < ApplicationController
   # GET /todos/1/edit
   def edit; end
 
+  def toggle_todo
+    @todo.update(completed: !@todo.completed)
+    respond_to do |format|
+      format.html { redirect_to todos_url }
+    end
+  end
+
   # POST /todos or /todos.json
   def create
     @todo = Todo.new(todo_params)
 
     respond_to do |format|
       if @todo.save
-        format.html { redirect_to todo_url(@todo), notice: 'Todo was successfully created.' }
+        format.html { redirect_to todos_url, notice: '' }
         format.json { render :show, status: :created, location: @todo }
       else
         format.html { render :new, status: :unprocessable_entity }
