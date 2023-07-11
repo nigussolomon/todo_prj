@@ -10,6 +10,8 @@ class Todo < ApplicationRecord
   end
 
   def self.percent_complete
+    return 0 if total_items.zero?
+
     ((completed_items.to_f / total_items) * 100).round(0)
   end
 

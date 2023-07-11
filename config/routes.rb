@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root "todos#index"
   resources :todos do
     member do
       get 'toggle', controller: :todos, action: :toggle_todo
@@ -7,5 +8,4 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
-  root "todos#index"
 end

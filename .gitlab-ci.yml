@@ -36,3 +36,13 @@ test:
     - cp config/database-ci.yml config/database.yml
     - bundle exec rails db:create db:schema:load
     - bundle exec rails spec
+
+system_test:
+  <<: *base
+  stage: test
+  services:
+    - postgres:15.3-alpine
+  script: 
+    - cp config/database-ci.yml config/database.yml
+    - bundle exec rails db:create db:schema:load
+    - bundle exec rails spec:system

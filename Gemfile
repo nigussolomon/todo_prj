@@ -29,8 +29,11 @@ group :development do
 end
 
 group :test do
+  gem 'capybara'
+  gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'simplecov'
   # gem 'simplecov-cobertura'
   gem 'timecop'
+  gem 'webdrivers'
 end
