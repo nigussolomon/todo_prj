@@ -4,6 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.2.2'
 
 gem 'bootsnap', require: false
+gem 'brakeman', '~> 6.0'
 gem 'importmap-rails'
 gem 'jbuilder'
 gem 'pg', '~> 1.1'
@@ -33,5 +34,3 @@ group :test do
   # gem 'simplecov-cobertura'
   gem 'timecop'
 end
-
-gem "brakeman", "~> 6.0"
