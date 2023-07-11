@@ -33,3 +33,5 @@ group :test do
   # gem 'simplecov-cobertura'
   gem 'timecop'
 end
+
+gem "brakeman", "~> 6.0"

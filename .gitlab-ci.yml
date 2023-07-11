@@ -21,6 +21,12 @@ lint:
   script:
     - bundle exec rubocop
 
+brakeman:
+  <<: *base
+  stage: build
+  script:
+    - bundle exec brakeman --color
+
 test:
   <<: *base
   stage: test
