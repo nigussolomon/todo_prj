@@ -9,24 +9,24 @@ variables:
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: "runner123"
 
-lint:
+.base: &base
   image: 'ruby:3.2.2'
-  stage: build
   before_script:
     - apt-get update && apt-get install -y postgresql-client
     - bundle install
+
+lint:
+  <<: *base
+  stage: build
   script:
     - bundle exec rubocop
 
 test:
-  image: 'ruby:3.2.2'
+  <<: *base
   stage: test
   services:
     - postgres:15.3-alpine
-  before_script:
-    - apt-get update && apt-get install -y postgresql-client
-    - bundle install
+  script: 
     - cp config/database-ci.yml config/database.yml
     - bundle exec rails db:create db:schema:load
-  script: 
     - bundle exec rails spec
