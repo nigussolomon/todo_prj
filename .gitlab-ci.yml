@@ -2,18 +2,27 @@ stages:
   - build
   - test
 
-variables:
-  RAILS_ENV: test
-  DB_HOST: postgres
-  POSTGRES_DB: ci_db
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: "runner123"
-
 .base: &base
   image: 'ruby:3.2.2'
   before_script:
     - apt-get update && apt-get install -y postgresql-client
     - bundle install
+
+.base_db: &base_db
+  <<: *base
+  variables:
+    RAILS_ENV: test
+    DB_HOST: postgres
+    POSTGRES_DB: ci_db
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: "runner123"
+  services:
+    - postgres:15.3-alpine
+  before_script:
+    - apt-get update && apt-get install -y postgresql-client
+    - bundle install
+    - cp config/database-ci.yml config/database.yml
+    - bundle exec rails db:create db:schema:load
 
 lint:
   <<: *base
@@ -28,13 +37,9 @@ brakeman:
     - bundle exec brakeman --color
 
 test:
-  <<: *base
+  <<: *base_db
   stage: test
-  services:
-    - postgres:15.3-alpine
   script: 
-    - cp config/database-ci.yml config/database.yml
-    - bundle exec rails db:create db:schema:load
     - bundle exec rails spec
   artifacts:
     reports:
@@ -44,11 +49,7 @@ test:
     when: on_success
 
 system_test:
-  <<: *base
+  <<: *base_db
   stage: test
-  services:
-    - postgres:15.3-alpine
   script: 
-    - cp config/database-ci.yml config/database.yml
-    - bundle exec rails db:create db:schema:load
     - bundle exec rails spec:system
