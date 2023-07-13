@@ -36,6 +36,12 @@ brakeman:
   script:
     - bundle exec brakeman --color
 
+assets:
+  <<: *base
+  stage: build
+  script:
+    - bundle exec rails assets:precompile
+
 test:
   <<: *base_db
   stage: test
