@@ -1,4 +1,5 @@
 require 'simplecov'
+require 'simplecov-cobertura'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -10,6 +11,7 @@ RSpec.configure do |config|
   config.shared_context_metadata_behavior = :apply_to_host_groups
 end
 
+SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
 SimpleCov.start 'rails' do
   add_filter('/bin/')
   add_filter('/db/')

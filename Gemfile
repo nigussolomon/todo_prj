@@ -33,7 +33,7 @@ group :test do
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'simplecov'
-  # gem 'simplecov-cobertura'
+  gem 'simplecov-cobertura'
   gem 'timecop'
   gem 'webdrivers'
 end

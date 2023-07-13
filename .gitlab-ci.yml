@@ -36,6 +36,12 @@ test:
     - cp config/database-ci.yml config/database.yml
     - bundle exec rails db:create db:schema:load
     - bundle exec rails spec
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/coverage.xml
+    when: on_success
 
 system_test:
   <<: *base
