@@ -1,5 +1,5 @@
 stages:
-  - build
+  - clean
   - test
 
 .base: &base
@@ -26,19 +26,19 @@ stages:
 
 lint:
   <<: *base
-  stage: build
+  stage: clean
   script:
     - bundle exec rubocop
 
 brakeman:
   <<: *base
-  stage: build
+  stage: clean
   script:
     - bundle exec brakeman --color
 
 assets:
   <<: *base
-  stage: build
+  stage: clean
   script:
     - bundle exec rails assets:precompile
 
