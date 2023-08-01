@@ -2,5 +2,43 @@ version: "3"
 
 services:
   db:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./docker/db/Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
   app:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - static:/app/static
+    depends_on:
+      - db
+  
   nginx:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - app
+    volumes:
+      - static:/app/static
+    ports:
+      - "80:80"
+
+volumes:
+  db_data: {}
+  static: {}
+  
