@@ -69,7 +69,7 @@ system_test:
   before_script:
     - docker login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASS
   script:
-    - docker build -f docker/db/Dockerfile -t $DOCKER_REGISTRY_USER/$IMAGE_NAME:$IMAGE_TAG .
+    - docker build -f $DOCKER_FILE -t $DOCKER_REGISTRY_USER/$IMAGE_NAME:$IMAGE_TAG .
     - docker push $DOCKER_REGISTRY_USER/$IMAGE_NAME:$IMAGE_TAG
 
 build_db:
@@ -77,21 +77,18 @@ build_db:
   variables:
     IMAGE_NAME: todo_db
     IMAGE_TAG: latest
+    DOCKER_FILE: docker/db/Dockerfile
 
 build_app:
   <<: *base_build
   variables:
     IMAGE_NAME: todo_app
     IMAGE_TAG: latest
-  script:
-    - docker build -f docker/app/Dockerfile -t $DOCKER_REGISTRY_USER/$IMAGE_NAME:$IMAGE_TAG .
-    - docker push $DOCKER_REGISTRY_USER/$IMAGE_NAME:$IMAGE_TAG
+    DOCKER_FILE: docker/app/Dockerfile
 
 build_nginx:
   <<: *base_build
   variables:
     IMAGE_NAME: todo_nginx
     IMAGE_TAG: latest
-  script:
-    - docker build -f docker/nginx/Dockerfile -t $DOCKER_REGISTRY_USER/$IMAGE_NAME:$IMAGE_TAG .
-    - docker push $DOCKER_REGISTRY_USER/$IMAGE_NAME:$IMAGE_TAG
+    DOCKER_FILE: docker/nginx/Dockerfile
