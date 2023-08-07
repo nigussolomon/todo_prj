@@ -68,15 +68,15 @@ system_test:
     - docker:23.0.6-dind
   before_script:
     - docker login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASS
+  script:
+    - docker build -f docker/db/Dockerfile -t $DOCKER_REGISTRY_USER/$IMAGE_NAME:$IMAGE_TAG .
+    - docker push $DOCKER_REGISTRY_USER/$IMAGE_NAME:$IMAGE_TAG
 
 build_db:
   <<: *base_build
   variables:
     IMAGE_NAME: todo_db
     IMAGE_TAG: latest
-  script:
-    - docker build -f docker/db/Dockerfile -t $DOCKER_REGISTRY_USER/$IMAGE_NAME:$IMAGE_TAG .
-    - docker push $DOCKER_REGISTRY_USER/$IMAGE_NAME:$IMAGE_TAG
 
 build_app:
   <<: *base_build
